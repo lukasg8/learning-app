@@ -13,8 +13,34 @@ struct HomeView: View {
     
     var body: some View {
         
-        Text(String(model.modules[0].id))
-        Text(model.modules[0].content.description)
+        
+        
+
+        NavigationView {
+            VStack (alignment:.leading) {
+                Text("What do you want to do today?")
+                ScrollView {
+                    LazyVStack (spacing: 20) {
+                        ForEach(model.modules) { module in
+                            
+                            // Lesson row
+                            HomeViewRow(image: module.content.image, title: ("Learn \(module.category)"), description: module.content.description, count: ("\(module.content.lessons.count) Lessons"), time: module.content.time)
+                            
+                            // Test row
+                            HomeViewRow(image: module.test.image, title: "\(module.category) Test", description: module.test.description, count: "\(module.test.questions.count) Questions", time: module.test.time)
+                        
+                        }
+                    }
+                    .padding(5)
+                }
+            }
+            .padding(.horizontal,15)
+            .padding(.top,0)
+            .navigationTitle("Get Started")
+        }
+        
+        
+        
         
     }
 }
@@ -22,5 +48,6 @@ struct HomeView: View {
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView()
+            .environmentObject(ContentModel())
     }
 }
