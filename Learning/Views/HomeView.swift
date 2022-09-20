@@ -12,13 +12,10 @@ struct HomeView: View {
     @EnvironmentObject var model: ContentModel
     
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
-        }
-        .padding()
+        
+        Text(String(model.modules[0].id))
+        Text(model.modules[0].content.description)
+        
     }
 }
 
