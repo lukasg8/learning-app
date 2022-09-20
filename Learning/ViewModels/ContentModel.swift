@@ -11,11 +11,15 @@ class ContentModel: ObservableObject {
     
     @Published var modules = [Module]()
     
+    var styleData:Data?
+    
     init() {
         getLocalData()
     }
     
     func getLocalData() {
+        
+        // Parse URL data
         
         let jsonUrl = Bundle.main.url(forResource: "data", withExtension: "json")
         
@@ -32,6 +36,22 @@ class ContentModel: ObservableObject {
         catch {
             print("Cannot parse json data")
         }
+        
+        // Parse style data
+        
+        let styleUrl = Bundle.main.url(forResource: "style", withExtension: "html")
+        
+        do {
+            
+            let styleData = try Data(contentsOf: styleUrl!)
+            
+            self.styleData = styleData
+            
+        }
+        catch {
+            print("could not parse style data")
+        }
+        
     }
     
 }
