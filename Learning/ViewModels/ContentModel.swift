@@ -19,7 +19,12 @@ class ContentModel: ObservableObject {
     @Published var currentLesson:Lesson?
     var currentLessonIndex = 0
     
+    // Current lesson explanation
+    @Published var lessonDescription = NSAttributedString()
     var styleData:Data?
+    
+    // Current selected content and test
+    @Published var currentContentSelected:Int?
     
     
     init() {
@@ -83,6 +88,7 @@ class ContentModel: ObservableObject {
         }
         
         currentLesson = currentModule!.content.lessons[currentLessonIndex]
+        lessonDescription = addStyling(currentLesson!.explanation)
         
     }
     
@@ -94,6 +100,7 @@ class ContentModel: ObservableObject {
         // Check if it's within range
         if currentLessonIndex < currentModule!.content.lessons.count {
             currentLesson = currentModule!.content.lessons[currentLessonIndex]
+            lessonDescription = addStyling(currentLesson!.explanation)
         }
         else {
             currentLessonIndex = 0
@@ -104,6 +111,28 @@ class ContentModel: ObservableObject {
     
     func hasNextLesson() -> Bool {
         return currentLessonIndex + 1 < currentModule!.content.lessons.count
+    }
+    
+    // MARK - Code Styling
+    private func addStyling(_ htmlString:String) -> NSAttributedString {
+        var resultString = NSAttributedString()
+        var data = Data()
+        
+        // add styling data
+        if styleData != nil {
+            data.append(styleData!)
+        }
+        
+        // add html data
+        data.append(Data(htmlString.utf8))
+        
+        // convert to attributed string
+        // "try?" means that if you cannot create attributed string, it just skips the code inside the if statement
+        if let attributedString = try? NSAttributedString(data: data, options: [.documentType:NSAttributedString.DocumentType.html], documentAttributes: nil) {
+            resultString = attributedString
+        }
+        
+        return resultString
     }
     
 }

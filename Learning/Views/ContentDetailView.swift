@@ -14,9 +14,10 @@ struct ContentDetailView: View {
     
     var body: some View {
         
+        let lesson = model.currentLesson
+        let url = URL(string:Constants.videoHostUrl + (lesson?.video ?? ""))
+        
         VStack {
-            let lesson = model.currentLesson
-            let url = URL(string:Constants.videoHostUrl + (lesson?.video ?? ""))
             
             // Video
             if url != nil {
@@ -25,7 +26,7 @@ struct ContentDetailView: View {
             }
             
             // Description
-            
+            CodeTextView()
             
             // Next lesson button
             if model.hasNextLesson() {
@@ -35,11 +36,8 @@ struct ContentDetailView: View {
                     
                     ZStack {
                         
-                        Rectangle()
+                        RectangleCard(color: .green)
                             .frame(height: 48)
-                            .foregroundColor(.green)
-                            .cornerRadius(10)
-                            .shadow(radius: 5)
                         
                         Text("Next lesson: \(model.currentModule!.content.lessons[model.currentLessonIndex + 1].title)")
                             .foregroundColor(.white)
@@ -48,8 +46,27 @@ struct ContentDetailView: View {
                     }
                 })
             }
+            else {
+                // Show complete button if no next lesson
+                
+                Button(action: {
+                    model.currentContentSelected = nil
+                }, label: {
+                    
+                    ZStack {
+                        
+                        RectangleCard(color: .green)
+                            .frame(height: 48)
+                        
+                        Text("Complete")
+                        
+                    }
+                })
+                
+            }
         }
         .padding()
+        .navigationBarTitle(lesson?.title ?? "")
     }
 }
 
