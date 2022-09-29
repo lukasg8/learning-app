@@ -96,6 +96,23 @@ class ContentModel: ObservableObject {
         
     }
     
+    func nextLesson() {
+        
+        // Advance lesson index
+        currentLessonIndex += 1
+        
+        // Check if it's within range
+        if currentLessonIndex < currentModule!.content.lessons.count {
+            currentLesson = currentModule!.content.lessons[currentLessonIndex]
+            codeText = addStyling(currentLesson!.explanation)
+        }
+        else {
+            currentLessonIndex = 0
+            currentLesson = nil
+        }
+        
+    }
+    
     func enterTest(moduleId:Int) {
         
         // set current module
@@ -112,21 +129,20 @@ class ContentModel: ObservableObject {
         
     }
     
-    func nextLesson() {
+    func nextQuestion() {
         
-        // Advance lesson index
-        currentLessonIndex += 1
+        // increment question index
+        currentQuestionIndex += 1
         
-        // Check if it's within range
-        if currentLessonIndex < currentModule!.content.lessons.count {
-            currentLesson = currentModule!.content.lessons[currentLessonIndex]
-            codeText = addStyling(currentLesson!.explanation)
+        // check it's within range of questions
+        if currentQuestionIndex < currentModule!.test.questions.count {
+            currentQuestion = currentModule!.test.questions[currentQuestionIndex]
+            codeText = addStyling(currentQuestion!.content)
         }
         else {
-            currentLessonIndex = 0
-            currentLesson = nil
+            currentQuestionIndex = 0
+            currentQuestion = nil
         }
-        
     }
     
     func hasNextLesson() -> Bool {
