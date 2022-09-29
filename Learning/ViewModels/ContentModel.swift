@@ -107,6 +107,7 @@ class ContentModel: ObservableObject {
         // if there are questions, set current question to first one
         if currentModule?.test.questions.count ?? 0 > 0 {
             currentQuestion = currentModule!.test.questions[currentQuestionIndex]
+            lessonDescription = addStyling(currentQuestion!.content)
         }
         
     }
