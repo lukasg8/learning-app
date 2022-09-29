@@ -24,7 +24,7 @@ class ContentModel: ObservableObject {
     var currentQuestionIndex = 0
     
     // Current lesson explanation
-    @Published var lessonDescription = NSAttributedString()
+    @Published var codeText = NSAttributedString()
     var styleData:Data?
     
     // Current selected content and test
@@ -92,7 +92,7 @@ class ContentModel: ObservableObject {
         }
         
         currentLesson = currentModule!.content.lessons[currentLessonIndex]
-        lessonDescription = addStyling(currentLesson!.explanation)
+        codeText = addStyling(currentLesson!.explanation)
         
     }
     
@@ -107,7 +107,7 @@ class ContentModel: ObservableObject {
         // if there are questions, set current question to first one
         if currentModule?.test.questions.count ?? 0 > 0 {
             currentQuestion = currentModule!.test.questions[currentQuestionIndex]
-            lessonDescription = addStyling(currentQuestion!.content)
+            codeText = addStyling(currentQuestion!.content)
         }
         
     }
@@ -120,7 +120,7 @@ class ContentModel: ObservableObject {
         // Check if it's within range
         if currentLessonIndex < currentModule!.content.lessons.count {
             currentLesson = currentModule!.content.lessons[currentLessonIndex]
-            lessonDescription = addStyling(currentLesson!.explanation)
+            codeText = addStyling(currentLesson!.explanation)
         }
         else {
             currentLessonIndex = 0
