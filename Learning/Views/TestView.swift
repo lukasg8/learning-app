@@ -113,7 +113,7 @@ struct TestView: View {
         else {
             // Need this since currentQuestion is only set onAppear (which is the variable which is needed to show VStack in TestView)
             // Therefore, by adding another view if currentQuestion is nil, onAppear perform will execute enterLesson and assign currentQuestion a value
-            ProgressView()
+            TestResultView(numCorrect: numCorrect)
         }
     }
     
