@@ -56,6 +56,16 @@ struct HomeView: View {
             .padding(.horizontal,15)
             .padding(.top,0)
             .navigationTitle("Get Started")
+            .onChange(of: model.currentContentSelected) { changedValue in
+                if changedValue == nil {
+                    model.currentModule = nil
+                }
+            }
+            .onChange(of: model.currentTestSelected) { changedValue in
+                if changedValue == nil {
+                    model.currentModule = nil
+                }
+            }
         }
         .navigationViewStyle(.stack)
     
